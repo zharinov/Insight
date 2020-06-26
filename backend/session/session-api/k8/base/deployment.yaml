@@ -1,5 +1,5 @@
 ---
-apiVersion: apps/v1
+apiVersion: v1
 kind: Deployment
 metadata:
   name: session-api
@@ -21,6 +21,10 @@ spec:
         app: session-api
         team: session
     spec:
+      topologySpreadConstraints:
+        - maxSkew: 2
+          topologyKey: node
+          whenUnsatisfiable: DoNotSchedule
       terminationGracePeriodSeconds: 30
       containers:
         - image: insightio/session-api
